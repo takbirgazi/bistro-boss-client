@@ -1,5 +1,6 @@
 # Bistro Boss
-*Live Link* [Click Here]('https://bistro-boss-b855c.web.app)
+
+**Live preview:** [Click Here](https://bistro-boss-b855c.web.app)
 
 **NMP Package**
 
@@ -10,3 +11,4 @@
 * react-icons
 * react-parallax
 * react-simple-captcha
+* sweetalert

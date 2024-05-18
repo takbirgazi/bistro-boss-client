@@ -4,14 +4,32 @@ import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-s
 import loginImg from "../../assets/images/loginImg.png";
 import { useEffect, useRef, useState } from "react";
 import { FaFacebookF, FaGoogle, FaGithub, FaCheck } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import auth from "../../firebase/firebase.config";
+import swal from 'sweetalert';
 
 const Login = () => {
     const captchaRef = useRef(null);
     const [disable, setDisable] = useState(true);
+    const googleProvider = new GoogleAuthProvider();
+    const location = useLocation();
+    const navigate =  useNavigate();
+    const from = location.state?.pathname || "/";
     useEffect(()=>{
         loadCaptchaEnginge(6);
     },[]);
+
+    const googleSignIn = ()=>{
+        signInWithPopup(auth, googleProvider)
+        .then(() =>{
+            navigate(from, {replace:true});
+            swal("Log In Successful!");
+        })
+        .catch(err =>{
+            console.log(err);
+        })
+    }
 
     const checkCaptcha = (event)=>{
         event.preventDefault();
@@ -69,7 +87,7 @@ const Login = () => {
                                     <div className="border rounded-full p-3 cursor-pointer">
                                         <FaFacebookF className="text-xl"/>
                                     </div>
-                                    <div className="border rounded-full p-3">
+                                    <div onClick={googleSignIn} className="border rounded-full p-3">
                                         <FaGoogle className="text-xl"/>
                                     </div>
                                     <div className="border rounded-full p-3">
