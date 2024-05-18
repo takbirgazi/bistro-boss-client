@@ -15,11 +15,10 @@ import Rating from '@mui/material/Rating';
 const Testimonials = () => {
     const [review, setReview] = useState([]);
     useEffect(()=>{
-        fetch(`reviews.json`)
+        fetch(`${import.meta.env.VITE_API}/reviews`)
         .then(res => res.json())
         .then(data => setReview(data))
     },[])
-    console.log(review)
     return (
         <div className="lg:w-10/12 w-11/12 mx-auto my-10">
             <SectionTitle heading="What Our Clients Say" subHeading="TESTIMONIALS" />

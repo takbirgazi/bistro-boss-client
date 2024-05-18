@@ -4,6 +4,8 @@ const NavBar = () => {
     const navList = <>
                         <li><NavLink to='/'>Home</NavLink></li>
                         <li><NavLink to='/menu'>Our Menu</NavLink></li>
+                        <li><NavLink to='/login'>Log In</NavLink></li>
+                        <li><NavLink to="/signup">Sign Up</NavLink></li>
                     </>
     return (
         <div className="navbar border-b fixed z-10 bg-white bg-opacity-55">

@@ -5,7 +5,7 @@ import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
 const HomeManues = () => {
     const [manues, setManues] = useState([]);
     useEffect(()=>{
-        fetch(`menu.json`)
+        fetch(`${import.meta.env.VITE_API}/menu`)
         .then(res => res.json())
         .then(data => setManues(data));
     },[])

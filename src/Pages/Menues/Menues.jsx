@@ -1,9 +1,13 @@
+import { Helmet } from "react-helmet-async";
 
 
 const Menues = () => {
     return (
         <div>
-            this is manues
+            <Helmet>
+            <title>Menus - Bistro Boss</title>
+           </Helmet>
+            this is menus
         </div>
     );
 };
