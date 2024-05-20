@@ -4,6 +4,7 @@ import Testimonials from "./Testimonials/Testimonials";
 import Featured from "./Featured/Featured";
 import Banner from './Banner/Banner';
 import HomeManues from "./HomeManues/HomeManues";
+import { Fade } from "react-awesome-reveal";
 
 const Home = () => {
     return (
@@ -12,12 +13,16 @@ const Home = () => {
             <title>Home - Bistro Boss</title>
            </Helmet>
            <Banner></Banner>
-           <div className="lg:w-10/12 w-11/12 mx-auto">
+           <Fade direction="left" className="lg:w-10/12 w-11/12 mx-auto">
                <Category></Category>
                <HomeManues></HomeManues>
-           </div>
-           <Featured></Featured>
-           <Testimonials></Testimonials>
+           </Fade>
+           <Fade direction="right">
+            <Featured></Featured>
+           </Fade>
+           <Fade direction="left">
+             <Testimonials></Testimonials>
+           </Fade>
         </div>
     );
 };

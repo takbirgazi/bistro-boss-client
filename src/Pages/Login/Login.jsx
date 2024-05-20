@@ -2,12 +2,13 @@ import { Helmet } from "react-helmet-async";
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 // import loginBg from "../../assets/images/loginBg.png";
 import loginImg from "../../assets/images/loginImg.png";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { FaFacebookF, FaGoogle, FaGithub, FaCheck } from "react-icons/fa";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import auth from "../../firebase/firebase.config";
 import swal from 'sweetalert';
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const Login = () => {
     const captchaRef = useRef(null);
@@ -16,6 +17,8 @@ const Login = () => {
     const location = useLocation();
     const navigate =  useNavigate();
     const from = location.state?.pathname || "/";
+    const {login} = useContext(AuthContext);
+
     useEffect(()=>{
         loadCaptchaEnginge(6);
     },[]);
@@ -41,6 +44,19 @@ const Login = () => {
         }
     }
 
+    const logIn = (event)=>{
+        event.preventDefault();
+        const form = event.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        login(email, password)
+        .then(()=>{
+            navigate(from, {replace:true})
+            swal("Log In Successful!");
+        })
+        .catch(err => console.log(err))
+    }
+
     return (
         <div className={`bg-[url('./assets/images/loginBg.png')] min-h-screen flex items-center justify-center`}>
             <Helmet>
@@ -54,7 +70,7 @@ const Login = () => {
                         </div>
                         <div className="card lg:w-1/2 w-full  shadow-2xl bg-base-100 ">
                             <h2 className="font-bold text-xl text-center mt-10 ">Log In</h2>
-                            <form className="card-body">
+                            <form onSubmit={logIn} className="card-body">
                                 <div className="form-control">
                                     <label className="label">
                                         <span className="label-text">Email</span>
@@ -87,10 +103,10 @@ const Login = () => {
                                     <div className="border rounded-full p-3 cursor-pointer">
                                         <FaFacebookF className="text-xl"/>
                                     </div>
-                                    <div onClick={googleSignIn} className="border rounded-full p-3">
+                                    <div onClick={googleSignIn} className="border rounded-full p-3 cursor-pointer">
                                         <FaGoogle className="text-xl"/>
                                     </div>
-                                    <div className="border rounded-full p-3">
+                                    <div className="border rounded-full p-3 cursor-pointer">
                                         <FaGithub className="text-xl"/>
                                     </div>
                                 </div>

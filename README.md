@@ -12,3 +12,4 @@
 * react-parallax
 * react-simple-captcha
 * sweetalert
+* react-awesome-reveal

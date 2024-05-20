@@ -1,14 +1,37 @@
-import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Provider/AuthProvider";
+import { signOut } from "firebase/auth";
+import auth from "../../firebase/firebase.config";
 
 const NavBar = () => {
+    const {user} = useContext(AuthContext);
+    const navigate = useNavigate(); 
+    const logOut =()=>{
+        signOut(auth)
+        .then(()=>{
+            navigate('/login');
+        })
+        .catch(err => console.log(err));
+    }
     const navList = <>
                         <li><NavLink to='/'>Home</NavLink></li>
                         <li><NavLink to='/menu'>Our Menu</NavLink></li>
-                        <li><NavLink to='/login'>Log In</NavLink></li>
-                        <li><NavLink to="/signup">Sign Up</NavLink></li>
+                        <li><NavLink to='/shop'>Our Shop</NavLink></li>
+                        {
+                            user ? <>
+                                        <button className="px-2 py-1" onClick={logOut}>Log Out</button>
+                                    </>
+                                    :
+                                    <>
+                                        <li><NavLink to="/signup">Sign Up</NavLink></li>
+                                        <li><NavLink to='/login'>Log In</NavLink></li>
+                                    </>
+
+                        }
                     </>
     return (
-        <div className="navbar border-b fixed z-10 bg-white bg-opacity-55">
+        <div className="navbar border-b fixed z-10 bg-white bg-opacity-55 px-5">
             <div className="navbar-start">
                 <div className="dropdown">
                 <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">

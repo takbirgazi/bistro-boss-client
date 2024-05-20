@@ -18,7 +18,7 @@ const HomeManues = () => {
                    manues.filter( manue => manue.category == "popular").map(manu=> <ManueList key={manu._id} listInfo={manu}/>)                    
                 }
             </div>
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center my-5">
                 <button className="px-3 py-2 btn-outline  rounded-md border-b-2 bg-gray-100 font-bold">View Full Menu</button>
             </div>
         </div>

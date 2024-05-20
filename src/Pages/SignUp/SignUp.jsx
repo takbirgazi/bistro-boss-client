@@ -2,16 +2,53 @@ import { Helmet } from "react-helmet-async";
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 // import loginBg from "../../assets/images/loginBg.png";
 import loginImg from "../../assets/images/loginImg.png";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { FaFacebookF, FaGoogle, FaGithub, FaCheck } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import auth from "../../firebase/firebase.config";
+import swal from "sweetalert";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const SignUp = () => {
     const captchaRef = useRef(null);
     const [disable, setDisable] = useState(true);
+    const googleProvider = new GoogleAuthProvider();
+    const location = useLocation();
+    const navigate =  useNavigate();
+    const from = location.state?.pathname || "/";
+    const {createUser, upadteUser} = useContext(AuthContext);
+
     useEffect(()=>{
         loadCaptchaEnginge(6);
     },[]);
+
+    const googleSignIn = ()=>{
+        signInWithPopup(auth, googleProvider)
+        .then(() =>{
+            navigate(from, {replace:true});
+            swal("Log In Successful!");
+        })
+        .catch(err =>{
+            console.log(err);
+        })
+    }
+
+    const singnUpHndler = (event)=>{
+            event.preventDefault();
+            const form = event.target;
+            const name = form.name.value;
+            const email = form.email.value;
+            const password = form.password.value;
+            // const user = {name,email,password}
+            createUser(email, password)
+            .then(()=> {
+                upadteUser(name);
+                navigate(from, {replace:true});
+                swal("Registration Successful!");
+            })
+            .catch(err => console(err))
+    }
 
     const checkCaptcha = (event)=>{
         event.preventDefault();
@@ -36,7 +73,7 @@ const SignUp = () => {
                         </div>
                         <div className="card lg:w-1/2 w-full  shadow-2xl bg-base-100 ">
                             <h2 className="font-bold text-xl text-center mt-10 ">Sign Up Now</h2>
-                            <form className="card-body">
+                            <form onSubmit={singnUpHndler} className="card-body">
                                 <div className="form-control">
                                     <label className="label">
                                         <span className="label-text">Name</span>
@@ -75,7 +112,7 @@ const SignUp = () => {
                                     <div className="border rounded-full p-3 cursor-pointer">
                                         <FaFacebookF className="text-xl"/>
                                     </div>
-                                    <div className="border rounded-full p-3">
+                                    <div onClick={googleSignIn} className="border rounded-full p-3">
                                         <FaGoogle className="text-xl"/>
                                     </div>
                                     <div className="border rounded-full p-3">
