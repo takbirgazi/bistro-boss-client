@@ -47,7 +47,7 @@ const SignUp = () => {
                 navigate(from, {replace:true});
                 swal("Registration Successful!");
             })
-            .catch(err => console(err))
+            .catch(err => console.log(err))
     }
 
     const checkCaptcha = (event)=>{

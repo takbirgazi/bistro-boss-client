@@ -13,3 +13,6 @@
 * react-simple-captcha
 * sweetalert
 * react-awesome-reveal
+* sweetalert2
+* axios
+* @tanstack/react-query

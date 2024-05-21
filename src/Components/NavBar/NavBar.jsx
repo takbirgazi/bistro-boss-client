@@ -3,10 +3,13 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { signOut } from "firebase/auth";
 import auth from "../../firebase/firebase.config";
+import useCart from "../../Hooks/useCart";
 
 const NavBar = () => {
     const {user} = useContext(AuthContext);
     const navigate = useNavigate(); 
+    const [allCarts] = useCart();
+
     const logOut =()=>{
         signOut(auth)
         .then(()=>{
@@ -20,6 +23,12 @@ const NavBar = () => {
                         <li><NavLink to='/shop'>Our Shop</NavLink></li>
                         {
                             user ? <>
+                                        <li><NavLink to='/'> 
+                                        <button className="flex gap-1">
+                                            Cart
+                                            <div className="badge badge-secondary">+{allCarts.length}</div>
+                                        </button>
+                                        </NavLink></li>
                                         <button className="px-2 py-1" onClick={logOut}>Log Out</button>
                                     </>
                                     :

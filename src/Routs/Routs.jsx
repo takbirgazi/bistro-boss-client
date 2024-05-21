@@ -5,6 +5,9 @@ import Menues from "../Pages/Menues/Menues";
 import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/SignUp/SignUp";
 import OurShop from "../Pages/OurShop/OurShop";
+import Dashboard from "../Layout/Dashboard";
+import MyCart from "../Pages/Dashboard/MyCart/MyCart";
+// import PrivateRoute from './PrivateRoute';
 
 const route = createBrowserRouter([
     {
@@ -17,21 +20,32 @@ const route = createBrowserRouter([
                 element: <Home></Home>
             },
             {
-                path: '/menu',
+                path: 'menu',
                 element: <Menues></Menues>
             },
             {
-                path: '/shop',
+                path: 'shop',
                 element: <OurShop></OurShop>
             },
             {
-                path: '/login',
+                path: 'login',
                 element:<Login></Login>
             },
             {
-                path: '/signup',
+                path: 'signup',
                 element:<SignUp></SignUp>
             }
+        ]
+    },
+    {
+        path: 'dashboard',
+        element: <Dashboard></Dashboard>,
+        errorElement: <div>This is Dashboard Error</div>,
+        children: [
+            {
+                path: 'myCart',
+                element: <MyCart></MyCart>
+            },
         ]
     }
 
