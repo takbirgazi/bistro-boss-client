@@ -7,7 +7,7 @@ const Root = () => {
     const loginPage = location.pathname.includes('login') || location.pathname.includes('signup');
 
     return (
-        <div className="max-w-screen-xl mx-auto">
+        <div className="max-w-screen-xl mx-auto bg-white">
             {loginPage || <NavBar></NavBar>}
             <div>
                 <Outlet></Outlet>

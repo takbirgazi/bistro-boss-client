@@ -4,21 +4,39 @@ import Swal from "sweetalert2";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuthUser from "../../../Hooks/useAuthUser";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useCart from "../../../Hooks/useCart";
 
 const ProductCard = ({cardInfo}) => {
     const {_id,name, image, recipe } = cardInfo;
-    const axiosApi = useAxiosSecure();
+    const axiosSecure = useAxiosSecure();
     const location = useLocation();
     const navigate = useNavigate();
     const {user} = useAuthUser();
+    const [,refetch] = useCart()
     const cardHandler = ()=>{
-        if(user){
+        if(user){ 
             const cartInfo ={
                 email: user.email,
                 menuId: _id
             }
-            axiosApi.post('/carts',cartInfo)
-            .then(res=> console.log(res.data))
+            Swal.fire({
+                title: "Are Your Sure",
+                text: `Your ${name} add to cart`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Confirm"
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    
+                    axiosSecure.post('/carts',cartInfo)
+                    .then(()=> {
+                        refetch();
+                    })
+                }
+            });
+
         }else{
             Swal.fire({
                 title: "Log in Please!",

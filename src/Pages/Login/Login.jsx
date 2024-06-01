@@ -9,6 +9,7 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import auth from "../../firebase/firebase.config";
 import swal from 'sweetalert';
 import { AuthContext } from "../../Provider/AuthProvider";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const Login = () => {
     const captchaRef = useRef(null);
@@ -17,8 +18,8 @@ const Login = () => {
     const location = useLocation();
     const navigate =  useNavigate();
     const from = location.state?.from?.pathname || "/";
-    console.log(from); 
-    const {login} = useContext(AuthContext);
+    const { login, user } = useContext(AuthContext);
+    const axiosPublic = useAxiosPublic()
 
     useEffect(()=>{
         loadCaptchaEnginge(6);
@@ -27,7 +28,17 @@ const Login = () => {
     const googleSignIn = ()=>{
         signInWithPopup(auth, googleProvider)
         .then(() =>{
-            navigate(from, {replace:true});
+            const userInfo = {
+                email: user.email,
+                name: user.displayName
+            }
+
+            axiosPublic.post('/users', userInfo)
+                .then(res => {
+                    console.log(res);
+                    navigate(from, {replace:true});
+            })
+
             swal("Log In Successful!");
         })
         .catch(err =>{

@@ -9,6 +9,7 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import auth from "../../firebase/firebase.config";
 import swal from "sweetalert";
 import { AuthContext } from "../../Provider/AuthProvider";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const SignUp = () => {
     const captchaRef = useRef(null);
@@ -17,7 +18,8 @@ const SignUp = () => {
     const location = useLocation();
     const navigate =  useNavigate();
     const from = location.state?.pathname || "/";
-    const {createUser, upadteUser} = useContext(AuthContext);
+    const { createUser, upadteUser, user } = useContext(AuthContext);
+    const axiosPublic = useAxiosPublic();
 
     useEffect(()=>{
         loadCaptchaEnginge(6);
@@ -25,7 +27,15 @@ const SignUp = () => {
 
     const googleSignIn = ()=>{
         signInWithPopup(auth, googleProvider)
-        .then(() =>{
+            .then(() => {
+                const userInfo = {
+                    email: user.email,
+                    name: user.displayName
+                }
+                axiosPublic.post('/users', userInfo)
+                    .then(res => {
+                        console.log(res);
+                })
             navigate(from, {replace:true});
             swal("Log In Successful!");
         })
@@ -40,9 +50,13 @@ const SignUp = () => {
             const name = form.name.value;
             const email = form.email.value;
             const password = form.password.value;
-            // const user = {name,email,password}
+            const user = {name,email}
             createUser(email, password)
-            .then(()=> {
+                .then(() => {
+                    axiosPublic.post('/users', user)
+                        .then(res => [
+                        console.log(res)
+                    ])
                 upadteUser(name);
                 navigate(from, {replace:true});
                 swal("Registration Successful!");

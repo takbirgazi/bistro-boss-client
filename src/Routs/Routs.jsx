@@ -6,14 +6,23 @@ import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/SignUp/SignUp";
 import OurShop from "../Pages/OurShop/OurShop";
 import Dashboard from "../Layout/Dashboard";
-import MyCart from "../Pages/Dashboard/MyCart/MyCart";
+import DashboardHome from "../Pages/Dashboard/Admin/DashboardHome/DashboardHome";
+import AddItems from "../Pages/Dashboard/Admin/AddItems/AddItems";
+import MyCart from "../Pages/Dashboard/User/MyCart/MyCart";
+import UserHome from "../Pages/Dashboard/User/UserHome/UserHome";
+import Reservation from "../Pages/Dashboard/User/Reservation/Reservation";
+import PaymentHistory from "../Pages/Dashboard/User/PaymentHistory/PaymentHistory";
+import AddReview from "../Pages/Dashboard/User/AddReview/AddReview";
+import MyBooking from "../Pages/Dashboard/User/MyBooking/MyBooking";
+import AllUsers from "../Pages/Dashboard/Admin/AllUsers/AllUsers";
+import Payment from "../Pages/Dashboard/User/Payment/Payment";
 // import PrivateRoute from './PrivateRoute';
 
 const route = createBrowserRouter([
     {
         path:'/',
         element: <Root></Root>,
-        errorElement: <div>error</div>,
+        errorElement: <div>Home Error Element</div>,
         children:[
             {
                 path: '/',
@@ -40,12 +49,50 @@ const route = createBrowserRouter([
     {
         path: 'dashboard',
         element: <Dashboard></Dashboard>,
-        errorElement: <div>This is Dashboard Error</div>,
+        errorElement: <div>Dashboard Error Element</div>,
         children: [
+            // Admin Routes
+            {
+                path: 'adminHome',
+                element: <DashboardHome></DashboardHome>
+            },
+            {
+                path: 'addItems',
+                element: <AddItems></AddItems>
+            },
+            {
+                path: 'allUsers',
+                element: <AllUsers></AllUsers>
+            },
+            // User Routes
+            {
+                path: 'userHome',
+                element: <UserHome></UserHome>
+            },
+            {
+                path: "payment",
+                element: <Payment></Payment>
+            },
             {
                 path: 'myCart',
                 element: <MyCart></MyCart>
             },
+            {
+                path: 'reservation',
+                element: <Reservation></Reservation>
+            },
+            {
+                path: 'paymentHistory',
+                element: <PaymentHistory></PaymentHistory>
+            },
+            {
+                path: "addReview",
+                element: <AddReview></AddReview>
+            },
+            {
+                path: 'myBooking',
+                element: <MyBooking></MyBooking>
+            }
         ]
     }
 
